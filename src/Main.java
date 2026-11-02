@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class Main {
 
@@ -16,6 +17,7 @@ public class Main {
         System.out.println("1 - Cadastrar tarefa");
         System.out.println("2 - Listar tarefas");
         System.out.println("3 - Concluir tarefa");
+        System.out.println("4 - Remover tarefa");
         System.out.println("0 - Sair");
     }
 
@@ -45,6 +47,18 @@ public class Main {
             }
         }
         System.out.println("Nenhuma tarefa com o ID " + id + " encontrada");
+    }
+
+    public static void removerTarefa(List<Tarefa> list, int id) {
+        Iterator<Tarefa> it = list.iterator();
+        while (it.hasNext()) {
+            if(it.next().getId() == id) {
+                it.remove();
+                System.out.println("Tarefa com ID " + id + " removida com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Nenhuma tarefa com o  ID " + id + " foi encontrada");
     }
 
     public static void main(String[] args) {
@@ -84,6 +98,20 @@ public class Main {
                     } else {
                         System.out.println("A lista está vazia.");
                     }
+                    break;
+                case 4:
+                    if(tarefas.isEmpty()) {
+                        System.out.println("A lista está vazia.");
+                        break;
+                    }
+                    System.out.println("Digite o ID da tarefa que deseja remover:");
+                    while (!scan.hasNextInt()) {
+                        System.out.println("Digite apenas números inteiros!");
+                        scan.nextLine();
+                    }
+                    int idParaRemover = scan.nextInt();
+                    scan.nextLine();
+                    removerTarefa(tarefas, idParaRemover);
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
