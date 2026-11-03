@@ -24,4 +24,8 @@ public class Tarefa {
     public boolean isConcluida() {
         return concluida;
     }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }

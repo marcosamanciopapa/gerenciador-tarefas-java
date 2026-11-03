@@ -18,6 +18,7 @@ public class Main {
         System.out.println("2 - Listar tarefas");
         System.out.println("3 - Concluir tarefa");
         System.out.println("4 - Remover tarefa");
+        System.out.println("5 - Editar tarefa");
         System.out.println("0 - Sair");
     }
 
@@ -52,13 +53,27 @@ public class Main {
     public static void removerTarefa(List<Tarefa> list, int id) {
         Iterator<Tarefa> it = list.iterator();
         while (it.hasNext()) {
-            if(it.next().getId() == id) {
+            if (it.next().getId() == id) {
                 it.remove();
                 System.out.println("Tarefa com ID " + id + " removida com sucesso!");
                 return;
             }
         }
         System.out.println("Nenhuma tarefa com o  ID " + id + " foi encontrada");
+    }
+
+    public static void editarTarefa(Tarefa tarefa, String novaDescricao) {
+        tarefa.setDescricao(novaDescricao);
+        System.out.println("Tarefa editada com sucesso!");
+    }
+
+    public static Tarefa buscarTarefaPorId(List<Tarefa> list, int id) {
+        for (Tarefa t : list) {
+            if (t.getId() == id) {
+                return t;
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) {
@@ -100,7 +115,7 @@ public class Main {
                     }
                     break;
                 case 4:
-                    if(tarefas.isEmpty()) {
+                    if (tarefas.isEmpty()) {
                         System.out.println("A lista está vazia.");
                         break;
                     }
@@ -112,6 +127,27 @@ public class Main {
                     int idParaRemover = scan.nextInt();
                     scan.nextLine();
                     removerTarefa(tarefas, idParaRemover);
+                    break;
+                case 5:
+                    if (tarefas.isEmpty()) {
+                        System.out.println("A lista de tarefas está vazia");
+                        break;
+                    }
+                    System.out.println("Digite o ID da tarefa que deseja editar:");
+                    while (!scan.hasNextInt()) {
+                        System.out.println("Digite apenas números inteiros!");
+                        scan.nextLine();
+                    }
+                    int idParaEditar = scan.nextInt();
+                    scan.nextLine();
+                    Tarefa tarefaEncontrada = buscarTarefaPorId(tarefas, idParaEditar);
+                    if (tarefaEncontrada != null) {
+                        System.out.println("Digite a nova descrição da tarefa:");
+                        String novaDescricao = scan.nextLine();
+                        editarTarefa(tarefaEncontrada, novaDescricao);
+                        break;
+                    }
+                    System.out.println("ID não corresponde a nenhuma tarefa da lista!");
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
