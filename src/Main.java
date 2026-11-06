@@ -19,6 +19,7 @@ public class Main {
         System.out.println("3 - Concluir tarefa");
         System.out.println("4 - Remover tarefa");
         System.out.println("5 - Editar tarefa");
+        System.out.println("6 - Listar tarefas pendentes");
         System.out.println("0 - Sair");
     }
 
@@ -74,6 +75,23 @@ public class Main {
             }
         }
         return null;
+    }
+
+    public static void listarTarefasPendentes(List<Tarefa> list) {
+        boolean peloMenosUmaTarefaPendente = false;
+        for (Tarefa t : list) {
+            if(!t.isConcluida()) {
+                if(!peloMenosUmaTarefaPendente) {
+                    System.out.println("===== Tarefas Pendentes =====");
+                }
+                System.out.println("ID: " + t.getId() + " Descricao: " + t.getDescricao());
+                System.out.println();
+                peloMenosUmaTarefaPendente = true;
+            }
+        }
+        if(!peloMenosUmaTarefaPendente) {
+            System.out.println("Nenhuma tarefa está pendente!");
+        }
     }
 
     public static void main(String[] args) {
@@ -148,6 +166,13 @@ public class Main {
                         break;
                     }
                     System.out.println("ID não corresponde a nenhuma tarefa da lista!");
+                    break;
+                case 6:
+                    if (tarefas.isEmpty()) {
+                        System.out.println("A lista de tarefas está vazia");
+                        break;
+                    }
+                    listarTarefasPendentes(tarefas);
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
