@@ -20,6 +20,7 @@ public class Main {
         System.out.println("4 - Remover tarefa");
         System.out.println("5 - Editar tarefa");
         System.out.println("6 - Listar tarefas pendentes");
+        System.out.println("7 - Listar tarefas concluídas");
         System.out.println("0 - Sair");
     }
 
@@ -80,8 +81,8 @@ public class Main {
     public static void listarTarefasPendentes(List<Tarefa> list) {
         boolean peloMenosUmaTarefaPendente = false;
         for (Tarefa t : list) {
-            if(!t.isConcluida()) {
-                if(!peloMenosUmaTarefaPendente) {
+            if (!t.isConcluida()) {
+                if (!peloMenosUmaTarefaPendente) {
                     System.out.println("===== Tarefas Pendentes =====");
                 }
                 System.out.println("ID: " + t.getId() + " Descricao: " + t.getDescricao());
@@ -89,8 +90,25 @@ public class Main {
                 peloMenosUmaTarefaPendente = true;
             }
         }
-        if(!peloMenosUmaTarefaPendente) {
+        if (!peloMenosUmaTarefaPendente) {
             System.out.println("Nenhuma tarefa está pendente!");
+        }
+    }
+
+    public static void listarTarefasConcluidas(List<Tarefa> list) {
+        boolean peloMenosUmaTarefaConcluida = false;
+        for (Tarefa t : list) {
+            if (t.isConcluida()) {
+                if (!peloMenosUmaTarefaConcluida) {
+                    System.out.println("===== Tarefas Concluidas =====");
+                }
+                System.out.println("ID: " + t.getId() + " Descricao: " + t.getDescricao());
+                System.out.println();
+                peloMenosUmaTarefaConcluida = true;
+            }
+        }
+        if (!peloMenosUmaTarefaConcluida) {
+            System.out.println("Não há tarefas concluídas!");
         }
     }
 
@@ -173,6 +191,13 @@ public class Main {
                         break;
                     }
                     listarTarefasPendentes(tarefas);
+                    break;
+                case 7:
+                    if (tarefas.isEmpty()) {
+                        System.out.println("A lista de tarefas está vazia");
+                        break;
+                    }
+                    listarTarefasConcluidas(tarefas);
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
