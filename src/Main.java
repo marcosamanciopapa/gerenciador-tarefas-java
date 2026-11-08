@@ -21,6 +21,7 @@ public class Main {
         System.out.println("5 - Editar tarefa");
         System.out.println("6 - Listar tarefas pendentes");
         System.out.println("7 - Listar tarefas concluídas");
+        System.out.println("8 - Buscar tarefa por descrição");
         System.out.println("0 - Sair");
     }
 
@@ -112,6 +113,23 @@ public class Main {
         }
     }
 
+    public static void buscarTarefasPorDescricao(List<Tarefa> list, String descricao) {
+        boolean peloMenosUmaOcorrencia = false;
+        for (Tarefa t : list) {
+            if (t.getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
+                if(!peloMenosUmaOcorrencia) {
+                    System.out.println("===== Tarefas encontradas =====");
+                    peloMenosUmaOcorrencia = true;
+                }
+                System.out.println("ID: " + t.getId() + " Descricao: " + t.getDescricao());
+                System.out.println();
+            }
+        }
+        if (!peloMenosUmaOcorrencia) {
+            System.out.println("Nenhuma tarefa encontrada!");
+        }
+    }
+
     public static void main(String[] args) {
         int contadorId = 1;
         List<Tarefa> tarefas = new ArrayList<>();
@@ -198,6 +216,21 @@ public class Main {
                         break;
                     }
                     listarTarefasConcluidas(tarefas);
+                    break;
+                case 8:
+                    if (tarefas.isEmpty()) {
+                        System.out.println("A lista está vazia");
+                        break;
+                    }
+                    String descricaoBuscada;
+                    do{
+                        System.out.println("Digite a descrição ou trecho que deseja buscar:");
+                        descricaoBuscada = scan.nextLine();
+                        if (descricaoBuscada.isBlank()) {
+                            System.out.println("Insira uma descrição válida.");
+                        }
+                    }while (descricaoBuscada.isBlank());
+                    buscarTarefasPorDescricao(tarefas, descricaoBuscada);
                     break;
                 case 0:
                     System.out.println("Encerrando programa...");
