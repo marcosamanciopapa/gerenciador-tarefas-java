@@ -66,6 +66,9 @@ public class Main {
     }
 
     public static void editarTarefa(Tarefa tarefa, String novaDescricao) {
+        if (novaDescricao.isBlank()) {
+            throw new IllegalArgumentException("A descrição não pode ficar vazia");
+        }
         tarefa.setDescricao(novaDescricao);
         System.out.println("Tarefa editada com sucesso!");
     }
@@ -117,7 +120,7 @@ public class Main {
         boolean peloMenosUmaOcorrencia = false;
         for (Tarefa t : list) {
             if (t.getDescricao().toLowerCase().contains(descricao.toLowerCase())) {
-                if(!peloMenosUmaOcorrencia) {
+                if (!peloMenosUmaOcorrencia) {
                     System.out.println("===== Tarefas encontradas =====");
                     peloMenosUmaOcorrencia = true;
                 }
@@ -146,8 +149,14 @@ public class Main {
             scan.nextLine();
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite a descrição da tarefa: ");
-                    String descricao = scan.nextLine();
+                    String descricao;
+                    do {
+                        System.out.println("Digite a descrição da tarefa: ");
+                        descricao = scan.nextLine();
+                        if (descricao.isBlank()) {
+                            System.out.println("A descrição não pode ser vazia!");
+                        }
+                    } while (descricao.isBlank());
                     cadastrarTarefa(tarefas, contadorId, descricao);
                     contadorId++;
                     break;
@@ -196,12 +205,19 @@ public class Main {
                     scan.nextLine();
                     Tarefa tarefaEncontrada = buscarTarefaPorId(tarefas, idParaEditar);
                     if (tarefaEncontrada != null) {
-                        System.out.println("Digite a nova descrição da tarefa:");
-                        String novaDescricao = scan.nextLine();
-                        editarTarefa(tarefaEncontrada, novaDescricao);
-                        break;
+                        do {
+                            try {
+                                System.out.println("Digite a nova descrição da tarefa:");
+                                String novaDescricao = scan.nextLine();
+                                editarTarefa(tarefaEncontrada, novaDescricao);
+                                break;
+                            } catch (IllegalArgumentException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        } while (true);
+                    }else{
+                        System.out.println("ID não corresponde a nenhuma tarefa da lista!");
                     }
-                    System.out.println("ID não corresponde a nenhuma tarefa da lista!");
                     break;
                 case 6:
                     if (tarefas.isEmpty()) {
@@ -223,13 +239,13 @@ public class Main {
                         break;
                     }
                     String descricaoBuscada;
-                    do{
+                    do {
                         System.out.println("Digite a descrição ou trecho que deseja buscar:");
                         descricaoBuscada = scan.nextLine();
                         if (descricaoBuscada.isBlank()) {
                             System.out.println("Insira uma descrição válida.");
                         }
-                    }while (descricaoBuscada.isBlank());
+                    } while (descricaoBuscada.isBlank());
                     buscarTarefasPorDescricao(tarefas, descricaoBuscada);
                     break;
                 case 0:
